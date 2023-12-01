@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './utils/auth.guard';
+import { WelcomeCardComponent } from './pages/welcome-card/welcome-card.component';
 
 const routes: Routes = [
   {
     path: '',
-    canActivate: [AuthGuard],
+    component: WelcomeCardComponent,
+    //canActivate: [AuthGuard],
     data: {expectedRole: 'ADMIN'},
     children: [
       {
@@ -24,7 +26,7 @@ const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: 'account'
+    redirectTo: ''
   }
 ];
 

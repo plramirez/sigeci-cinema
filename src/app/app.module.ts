@@ -13,6 +13,7 @@ import { environment } from 'src/environments/environment';
 import { DatePipe } from '@angular/common';
 import { AuthGuard } from './utils/auth.guard';
 import { CustomHttpInterceptor } from './utils/custom-http.interceptor';
+import { WelcomeCardComponent } from './pages/welcome-card/welcome-card.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -20,7 +21,8 @@ export function tokenGetter() {
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    WelcomeCardComponent
   ],
   imports: [
     BrowserModule,
