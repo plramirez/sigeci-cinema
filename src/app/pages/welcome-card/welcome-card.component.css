@@ -63,3 +63,9 @@
   padding-right: 50px;
   border-radius: 20px;
 }
+
+:host {
+  display: block;
+  background-color: #02298A;
+  /* Otros estilos específicos del dashboard */
+}

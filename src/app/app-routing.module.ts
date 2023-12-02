@@ -6,15 +6,20 @@ import { WelcomeCardComponent } from './pages/welcome-card/welcome-card.componen
 const routes: Routes = [
   {
     path: '',
-    component: WelcomeCardComponent,
+    component: WelcomeCardComponent
+  },
+  {
+    path: 'admin',
+    loadChildren: () => import('./pages/admin/admin.module').then(m => m.AdminModule)
     //canActivate: [AuthGuard],
-    data: {expectedRole: 'ADMIN'},
-    children: [
-      {
-        path: 'admin',
-        loadChildren: () => import('./pages/admin/admin.module').then(m => m.AdminModule)
-      }
-    ]
+    //data: {expectedRole: 'ADMIN'},
+    // children: [
+    //   {
+
+    //     path: 'admin',
+    //     loadChildren: () => import('./pages/admin/admin.module').then(m => m.AdminModule)
+    //   }
+    // ]
   },
   {
     path: 'guess',
@@ -23,10 +28,6 @@ const routes: Routes = [
   {
     path: 'account',
     loadChildren: () => import('./pages/account/account.module').then(m => m.AccountModule)
-  },
-  {
-    path: '**',
-    redirectTo: ''
   }
 ];
 

@@ -1,1 +1,18 @@
-<p>sidebar works!</p>
+<div class="sidebar">
+  <div class="logo">
+    <!-- Coloca aquí tu logo o imagen -->
+    <img [src]="imagePath" alt="Logo">
+  </div>
+  <div class="menu">
+    <button routerLink="/admin/dashboard" routerLinkActive="active" (click)="goAdminDashboard()"><i class="fas fa-th-large"></i>Inicio</button>
+    <button routerLink="/admin/movies" routerLinkActive="active" (click)="goAdminMovies()"><i class="fas fa-film"></i>Peliculas</button>
+    <button routerLink="/admin/cinemas" routerLinkActive="active" (click)="goAdminCinemas()"><i class="fas fa-building"></i>Cines</button>
+    <button routerLink="/admin/rooms" routerLinkActive="active" (click)="goAdminRooms()"><i class="fas fa-home"></i>salas</button>
+    <button routerLink="/admin/assignment" routerLinkActive="active" (click)="goAdminAssignment()"><i class="fas fa-sitemap"></i>Asignación</button>
+    <!-- Agrega más botones según tus necesidades -->
+  </div>
+
+  <div id="bottom-text">
+    Cinema Centro Dev
+  </div>
+</div>

@@ -1,0 +1,64 @@
+
+<div class="wrapper">
+  <app-sidebar class="app-sidebar"></app-sidebar>
+  <div class="content">
+    <app-top-bar></app-top-bar>
+    <div class="movies-container">
+      <div class="header">
+        <h2>Gestión y Manejo de Películas</h2>
+      </div>
+        <div class="buttons">
+          <button class="add-button">
+            <span>Agregar Nuevo</span>
+            <i class="material-icons">add</i>
+          </button>
+          <button class="home-button">Inicio</button>
+        </div>
+
+        <div class="movies-table-container">
+          <table class="movies-table">
+            <thead>
+              <tr>
+                <th>Acciones</th>
+                <th>Título</th>
+                <th>Género</th>
+                <th>Clasificación</th>
+                <th>Sinopsis</th>
+                <th>Director</th>
+                <th>Protagonistas</th>
+                <th>Fecha de Estreno</th>
+                <th>Fecha de Agregada</th>
+                <th>Portada</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let movie of movies">
+                <td>
+                  <button (click)="verPelicula(movie)">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <button (click)="editarPelicula(movie)">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button (click)="eliminarPelicula(movie)">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </td>
+                <td>{{ movie.title }}</td>
+                <td>{{ movie.genre }}</td>
+                <td>{{ movie.rating }}</td>
+                <td>{{ movie.synopsis }}</td>
+                <td>{{ movie.director }}</td>
+                <td>{{ movie.stars }}</td>
+                <td>{{ movie.releaseDate }}</td>
+                <td>{{ movie.addedDate }}</td>
+                <td><img [src]="movie.coverImage" alt="Portada"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+  </div>
+</div>
+

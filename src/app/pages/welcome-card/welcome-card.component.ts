@@ -18,6 +18,6 @@ export class WelcomeCardComponent {
   }
 
   goAdminModule() {
-    //this.router.navigate(['/admin']);
+    this.router.navigate(['/account/login']);
   }
 }

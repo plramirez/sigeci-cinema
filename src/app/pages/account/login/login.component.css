@@ -76,3 +76,9 @@ button {
   color: #0575e6;
   cursor: pointer;
 }
+
+:host {
+  display: block;
+  background-color: #02298A;
+  /* Otros estilos específicos del dashboard */
+}
