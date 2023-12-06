@@ -1,0 +1,46 @@
+<!-- form-movie-dialog.component.html -->
+<h2>Agregar Película</h2>
+<form>
+  <div class="form-row">
+    <div class="form-column">
+      <label for="title">Título:</label>
+      <input type="text" id="title" name="title" [(ngModel)]="movie.title" required [attr.disabled]="readonly ? true : null">
+
+      <label for="genre">Género:</label>
+      <select id="genre" name="genre" [(ngModel)]="movie.genre" required [attr.disabled]="readonly ? true : null">
+        <option *ngFor="let genre of movie.genres" [value]="genre">{{ genre }}</option>
+      </select>
+
+      <label for="classification">Clasificación:</label>
+      <input type="text" id="classification" name="classification" [(ngModel)]="movie.classification" required [attr.disabled]="readonly ? true : null">
+
+      <label for="synopsis">Sinopsis:</label>
+      <textarea id="synopsis" name="synopsis" [(ngModel)]="movie.synopsis" required [attr.disabled]="readonly ? true : null"></textarea>
+
+      <label for="director">Director:</label>
+      <input type="text" id="director" name="director" [(ngModel)]="movie.director" required [attr.disabled]="readonly ? true : null">
+
+    </div>
+
+    <div class="form-column">
+
+
+      <label for="protagonists">Protagonistas:</label>
+      <input type="text" id="protagonists" name="protagonists" [(ngModel)]="movie.protagonists" required [attr.disabled]="readonly ? true : null">
+
+      <label for="releaseDate">Fecha de Estreno:</label>
+      <input type="date" id="releaseDate" name="releaseDate" [(ngModel)]="movie.releaseDate" required [attr.disabled]="readonly ? true : null">
+
+      <label for="addedDate">Fecha de Agregada:</label>
+      <input type="date" id="addedDate" name="addedDate" [(ngModel)]="movie.addedDate" required [attr.disabled]="readonly ? true : null">
+
+      <label for="coverImage">Portada (URL de la imagen o cargar desde archivo):</label>
+      <input type="text" id="coverImage" name="coverImage" [(ngModel)]="movie.coverImage" placeholder="URL de la imagen">
+      <input type="file" id="fileInput" (change)="handleFileInput($event)">
+    </div>
+  </div>
+  <div class="button-container">
+    <button class="outline-button" mat-button (click)="onCancelClick()">Cancelar</button>
+    <button class="fill-button" mat-raised-button color="primary" (click)="onSaveClick()">Guardar</button>
+  </div>
+</form>

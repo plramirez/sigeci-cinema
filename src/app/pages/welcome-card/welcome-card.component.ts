@@ -13,8 +13,9 @@ export class WelcomeCardComponent {
   constructor(private router: Router) {}
   isCustomerButtonOutline: boolean = true; // Inicializar como true para que el botón del cliente sea outline
 
-  goCustomerModule() {
-   // this.router.navigate(['/customer']);
+  goCustomerModule(): void {
+    // Redirige la ventana actual a la nueva página
+    window.location.href = 'http://localhost/wordpress/';
   }
 
   goAdminModule() {

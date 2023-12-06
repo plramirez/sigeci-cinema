@@ -32,7 +32,7 @@ export function tokenGetter() {
     NgxSpinnerModule,
     AppRoutingModule,
     ToastrModule.forRoot(),
-    NgxMaskDirective, 
+    NgxMaskDirective,
     NgxMaskPipe,
     JwtModule.forRoot({
       config: {
