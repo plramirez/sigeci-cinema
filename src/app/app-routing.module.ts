@@ -22,7 +22,7 @@ const routes: Routes = [
     // ]
   },
   {
-    path: 'guess',
+    path: 'guest',
     loadChildren: () => import('./pages/guest/guest.module').then(m => m.GuestModule)
   },
   {

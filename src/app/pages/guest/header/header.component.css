@@ -1,0 +1,48 @@
+/* header.component.css */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #02298A;
+  color: #ffffff;
+}
+
+.logo-container img {
+  max-width: 100px;
+}
+
+.menu-list {
+  list-style-type: none;
+  display: flex;
+}
+
+.menu-list li {
+  margin-right: 20px;
+}
+
+.outline-button {
+  background-color: transparent;
+  color: #ffffff;
+  border: 2px solid #ffffff;
+  border-radius: 20px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+}
+
+.search-bar input {
+  padding: 5px;
+  margin-right: 10px;
+}
+
+.filter-icon {
+  background-color: transparent;
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+}
