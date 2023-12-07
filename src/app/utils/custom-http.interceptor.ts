@@ -28,11 +28,6 @@ export class CustomHttpInterceptor implements HttpInterceptor {
     this.spinnerService.show();
 
     return next.handle(request).pipe(
-      catchError((error: HttpErrorResponse) => {
-        this.errorHandlerService.handleError(error);
-
-        return throwError(error);
-      }),
       finalize(() => {
         this.spinnerService.hide()
       })

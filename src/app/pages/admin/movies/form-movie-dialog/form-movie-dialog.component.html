@@ -1,42 +1,43 @@
 <!-- form-movie-dialog.component.html -->
-<h2>Agregar Película</h2>
-<form>
+<h2>{{title}} Película</h2>
+<form [formGroup]="form">
   <div class="form-row">
     <div class="form-column">
-      <label for="title">Título:</label>
-      <input type="text" id="title" name="title" [(ngModel)]="movie.title" required [attr.disabled]="readonly ? true : null">
+      <label for="title">Título: <span class="text-danger">*</span></label>
+      <input type="text" id="title" name="title" formControlName="movieName">
 
       <label for="genre">Género:</label>
-      <select id="genre" name="genre" [(ngModel)]="movie.genre" required [attr.disabled]="readonly ? true : null">
-        <option *ngFor="let genre of movie.genres" [value]="genre">{{ genre }}</option>
-      </select>
+      <ngx-select-dropdown id="genre" name="genre" (change)="changeGender()" formControlName="genderObject"
+        [multiple]="false" [config]="gendersDropConfig" [options]="genders"></ngx-select-dropdown>
 
       <label for="classification">Clasificación:</label>
-      <input type="text" id="classification" name="classification" [(ngModel)]="movie.classification" required [attr.disabled]="readonly ? true : null">
+      <ngx-select-dropdown id="classification" name="classification" (change)="changeClassification()" formControlName="classificationObject"
+        [multiple]="false" [config]="classifiDropConfig" [options]="classifications"></ngx-select-dropdown>
 
       <label for="synopsis">Sinopsis:</label>
-      <textarea id="synopsis" name="synopsis" [(ngModel)]="movie.synopsis" required [attr.disabled]="readonly ? true : null"></textarea>
+      <textarea id="synopsis" name="synopsis" formControlName="synopsis" rows="5"></textarea>
 
-      <label for="director">Director:</label>
-      <input type="text" id="director" name="director" [(ngModel)]="movie.director" required [attr.disabled]="readonly ? true : null">
-
+  
     </div>
 
     <div class="form-column">
-
-
+      <label for="director">Director:</label>
+      <input type="text" id="director" name="director" formControlName="directorName">
+      <!-- 
       <label for="protagonists">Protagonistas:</label>
-      <input type="text" id="protagonists" name="protagonists" [(ngModel)]="movie.protagonists" required [attr.disabled]="readonly ? true : null">
+      <input type="text" id="protagonists" name="protagonists" [(ngModel)]="movie.protagonists" required
+        [attr.disabled]="readonly ? true : null"> -->
 
       <label for="releaseDate">Fecha de Estreno:</label>
-      <input type="date" id="releaseDate" name="releaseDate" [(ngModel)]="movie.releaseDate" required [attr.disabled]="readonly ? true : null">
+      <input type="date" id="releaseDate" name="releaseDate" formControlName="releaseDate">
 
-      <label for="addedDate">Fecha de Agregada:</label>
-      <input type="date" id="addedDate" name="addedDate" [(ngModel)]="movie.addedDate" required [attr.disabled]="readonly ? true : null">
+      <label for="releaseHour">Hora de Estreno:</label>
+      <input type="time" id="releaseHour" name="releaseHour" formControlName="releaseHour">
 
-      <label for="coverImage">Portada (URL de la imagen o cargar desde archivo):</label>
-      <input type="text" id="coverImage" name="coverImage" [(ngModel)]="movie.coverImage" placeholder="URL de la imagen">
-      <input type="file" id="fileInput" (change)="handleFileInput($event)">
+      <!-- <label for="coverImage">Portada (URL de la imagen o cargar desde archivo):</label>
+      <input type="text" id="coverImage" name="coverImage" [(ngModel)]="movie.coverImage"
+        placeholder="URL de la imagen">
+      <input type="file" id="fileInput" (change)="handleFileInput($event)"> -->
     </div>
   </div>
   <div class="button-container">

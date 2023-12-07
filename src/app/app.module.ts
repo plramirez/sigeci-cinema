@@ -14,6 +14,8 @@ import { DatePipe } from '@angular/common';
 import { AuthGuard } from './utils/auth.guard';
 import { CustomHttpInterceptor } from './utils/custom-http.interceptor';
 import { WelcomeCardComponent } from './pages/welcome-card/welcome-card.component';
+import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
+import { SharedModule } from './shared/shared.module';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -22,9 +24,11 @@ export function tokenGetter() {
 @NgModule({
   declarations: [
     AppComponent,
-    WelcomeCardComponent
+    WelcomeCardComponent,
+    AdminLayoutComponent
   ],
   imports: [
+    SharedModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,

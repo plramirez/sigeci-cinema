@@ -1,8 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   MatDialog} from '@angular/material/dialog';
 import { FormMovieDialogComponent } from './form-movie-dialog/form-movie-dialog.component';
-import { ConfirmDeleteMovieDialogComponent } from './confirm-delete-movie-dialog/confirm-delete-movie-dialog.component';
+import { IMoviesVIew } from 'src/app/utils/models/movies';
+import { MovieService } from 'src/app/services/movie.service';
+import { AlertService } from 'src/app/services/alert.service';
+import { IErrorResponse } from 'src/app/utils/models/response';
+import { EnumOperation } from 'src/app/utils/models/enums';
+import { AccountService } from 'src/app/services/account.service';
+import { ConfirmDeleteDialogComponent } from 'src/app/shared/confirm-delete-dialog/confirm-delete-dialog.component';
+import { ISearcherOptions } from 'src/app/utils/models/filter';
 
 @Component({
   selector: 'app-movies',
@@ -10,79 +17,140 @@ import { ConfirmDeleteMovieDialogComponent } from './confirm-delete-movie-dialog
   styleUrls: ['./movies.component.css']
 })
 
-export class MoviesComponent {
-  constructor(public dialog: MatDialog) {}
+export class MoviesComponent implements OnInit {
 
-   movies: any[] = [ {
-    title: 'La película',
-    genre: 'Acción',
-    rating: 'PG-13',
-    synopsis: 'Una emocionante película de acción.',
-    director: 'Director Ejemplo',
-    stars: 'Actor1, Actor2',
-    releaseDate: '2023-01-01',
-    addedDate: '2023-12-01',
-    coverImage: 'url-de-la-imagen.jpg',
-  }, {
-    title: 'La película 2',
-    genre: 'Comedia',
-    rating: 'PG',
-    synopsis: 'Una divertida comedia para toda la familia.',
-    director: 'Director Ejemplo 2',
-    stars: 'Actriz1, Actor3',
-    releaseDate: '2023-02-15',
-    addedDate: '2023-12-02',
-    coverImage: 'url-de-la-imagen-2.jpg',
-  }]; // Supongamos que movies es un array de películas
+  movies: IMoviesVIew[] = [];
+  moviesFiltered: IMoviesVIew[] = [];
+
+  modalEnums = EnumOperation
+
+  searchOptions: ISearcherOptions[]=[
+    {
+      name: 'Secuencia',
+      attribute: 'movieId',
+      isDate: false,
+      isMoney: false,
+      isDropDown: false,
+      nestedDropdown: []
+    },
+    {
+      name: 'Nombre',
+      attribute: 'movieName',
+      isDate: false,
+      isMoney: false,
+      isDropDown: false,
+      nestedDropdown: []
+    },
+    {
+      name: 'Director',
+      attribute: 'directorName',
+      isDate: false,
+      isMoney: false,
+      isDropDown: false,
+      nestedDropdown: []
+    },
+    
+  ]
+
+  constructor(public dialog: MatDialog, private movieService: MovieService, private alertService: AlertService, private accountService: AccountService) {}
+
+  ngOnInit(): void {
+      this.getMovieList();
+  }
+
+  getMovieList(){
+    this.movieService.getMovieList().subscribe({
+      next: (response)=>{
+        if(!response.succeded){
+          response.warnings.forEach(warn=>{
+            this.alertService.showWarningAlert('',warn);
+          })
+          return;
+        }
+
+        this.movies = response.dataList;
+
+      },
+      error: (err)=>{
+        if (err?.error instanceof IErrorResponse) {
+          // Error del backend
+          const errorResponse: IErrorResponse = err.error as IErrorResponse;
+          if (errorResponse?.Message) {
+            this.alertService.showErrorAlert('', errorResponse?.Message);
+          }
+          errorResponse?.Details?.forEach(err => {
+            this.alertService.showErrorAlert(err?.Title, err?.Message);
+          })
+        } else {
+          // Error del cliente o de red
+          this.alertService.showErrorAlert('Ha ocurrido un error inesperado', err?.error?.message);
+        }
+      }
+    })
+  }
 
 
-
-  openAddMovieDialog(): void {
+  openMovieDialog(movie: IMoviesVIew | null, viewType: EnumOperation): void {
     const dialogRef = this.dialog.open(FormMovieDialogComponent, {
       width: '60%', // Ajusta el ancho según tus necesidades
       disableClose: true, // Evita que el diálogo se cierre al hacer clic fuera de él
+      data: {movieData: movie,  viewType}
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('El diálogo se cerró', result);
-      // Puedes realizar acciones después de que se cierre el diálogo
+      if(result?.succeded == true){
+        this.getMovieList();
+      }
     });
   }
-  // Métodos para acciones de botones
-  verPelicula(movie: any): void {
-    const dialogRef = this.dialog.open(FormMovieDialogComponent, {
-      width: '60%',
-      data: { movie, readonly: true } // Pasa la película y el modo de vista
-    });
-    console.log(`Ver película: ${movie.title}`);
-  }
 
-  editarPelicula(movie: any): void {
-    const dialogRef = this.dialog.open(FormMovieDialogComponent, {
-      width: '60%',
-      data: { movie, readonly: false } // Pasa la película y el modo de edición
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      // Aquí puedes manejar acciones después de cerrar el diálogo de edición
-    });
-    console.log(`Editar película: ${movie.title}`);
-  }
-
-  eliminarPelicula(movie: any): void {
-    const dialogRef = this.dialog.open(ConfirmDeleteMovieDialogComponent, {
+  deleteMovie(movie: IMoviesVIew): void {
+    const dialogRef = this.dialog.open(ConfirmDeleteDialogComponent, {
       width: '300px',
       data: { title: 'Confirmar', message: '¿Estás seguro de que deseas eliminar esta película?' }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        // Aquí puedes realizar la lógica para eliminar la película de la lista
-        // this.moviesService.eliminarPelicula(movie.id);
+        const userId = this.accountService.getUserId();
+        this.doDeleteMovie(movie.movieId, userId);
       }
     });
-    console.log(`Eliminar película: ${movie.title}`);
   }
 
+  private doDeleteMovie(movieId: number, userId: number){
+    this.movieService.deleteMovie(movieId, userId).subscribe({
+      next: (response)=>{
+        if(!response.succeded){
+          response.warnings.forEach(warn=>{
+            this.alertService.showWarningAlert('',warn);
+          })
+          return;
+        }
+
+        this.getMovieList();
+
+      },
+      error: (err)=>{
+        if (err?.error instanceof IErrorResponse) {
+          // Error del backend
+          const errorResponse: IErrorResponse = err.error as IErrorResponse;
+          if (errorResponse?.Message) {
+            this.alertService.showErrorAlert('', errorResponse?.Message);
+          }
+          errorResponse?.Details?.forEach(err => {
+            this.alertService.showErrorAlert(err?.Title, err?.Message);
+          })
+        } else {
+          // Error del cliente o de red
+          this.alertService.showErrorAlert('Ha ocurrido un error inesperado', err?.error?.message);
+        }
+      }
+    })
+  }
+
+  changeListForSearch(value: IMoviesVIew[]){
+    this.moviesFiltered = [...value];
+  }
 
 }
