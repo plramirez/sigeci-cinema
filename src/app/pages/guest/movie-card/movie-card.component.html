@@ -1,6 +1,6 @@
 <div class="pelicula-card">
-  <img [src]="pelicula.imagen" alt="{{ pelicula.titulo }}">
-  <h3>{{ pelicula.titulo }}</h3>
-  <p>{{ pelicula.genero }}</p>
-  <p>{{ pelicula.descripcion | slice:0:50 }}{{ pelicula.descripcion.length > 50 ? '...' : '' }}</p>
+  <img [src]="movie?.imageUrl" alt="{{ movie?.movieName }}">
+  <h3>{{  movie?.movieName }}</h3>
+  <p>{{  movie?.genderName }}</p>
+  <p>{{  movie?.synopsis | slice:0:50 }}{{ movie?.synopsis ? ( movie?.synopsis!.length > 50 ? '...' : '') : "" }}</p>
 </div>

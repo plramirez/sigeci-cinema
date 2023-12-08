@@ -26,22 +26,8 @@ export class SidebarComponent {
     this.router.navigate([route]);
   }
 
-
-  goAdminDashboard() {
-    this.router.navigate(['/admin/dashboard']);
-  }
-
-  goAdminMovies() {
-    this.router.navigate(['/admin/movies']);
-  }
-  goAdminCinemas() {
-    this.router.navigate(['/admin/cinemas']);
-  }
-  goAdminRooms() {
-    this.router.navigate(['/admin/rooms']);
-  }
-  goAdminAssignment() {
-    this.router.navigate(['/admin/assignment']);
+  doNagivation(route:string){
+    this.router.navigate([route]);
   }
 }
 

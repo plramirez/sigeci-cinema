@@ -10,6 +10,7 @@ export interface IMoviesVIew {
     releaseDate: string
     releaseHour: string
     movieTag: string
+    imageUrl: string
     imageBytes: string
     imageName: string
     imageExtension: string
@@ -29,6 +30,8 @@ export interface IMoviePost {
     directorName: string | null
     releaseDate: string | null
     releaseHour: string | null
+    imageUploaded: File | null
+    deleteImageUploaded: boolean | null
     userId: number | null | undefined
     actorsInMovies: IActorsInMoviePost[]
 }
@@ -66,6 +69,13 @@ export interface IMovieByScreenView {
     movieByScreenId: number
     movieId: number
     movieName: string
+    genderId: number
+    genderName: string
+    classificationId: number
+    classificationName: string
+    synopsis: string
+    directorName: string
+    movieTag: string
     screenId: number
     screenName: string
     cinemaId: number

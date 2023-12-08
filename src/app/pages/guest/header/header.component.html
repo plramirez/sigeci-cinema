@@ -2,7 +2,7 @@
 <header>
   <div class="top-bar">
     <div class="logo-container">
-      <img [src]="imagePath" alt="Logo">
+      <img [src]="imagePath" alt="Logo" routerLink="/" style="cursor: pointer;"> 
     </div>
     <div class="menu-container">
       <ul class="menu-list">
@@ -12,7 +12,7 @@
       </ul>
     </div>
     <div class="admin-access">
-      <button class="outline-button">Acceder como Administrador</button>
+      <button class="outline-button" routerLink="/admin">Acceder como Administrador</button>
     </div>
   </div>
   <div class="bottom-bar">

@@ -1,106 +1,58 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DetailsMovieDialogComponent } from '../details-movie-dialog/details-movie-dialog.component';
+import { MovieService } from 'src/app/services/movie.service';
+import { IMovieByScreenView, IMoviesVIew } from 'src/app/utils/models/movies';
+import { AlertService } from 'src/app/services/alert.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-movies-web-filters',
   templateUrl: './movies-web-filters.component.html',
   styleUrls: ['./movies-web-filters.component.css']
 })
-export class MoviesWebFiltersComponent {
-  constructor(public dialog: MatDialog) {}
-  peliculas: any[] = [
-    {
-      titulo: 'Pelicula 1',
-      genero: 'Acción',
-      descripcion: 'Una película emocionante llena de acción.',
-      imagen: 'url-de-imagen-1.jpg',
-    },
-    {
-      titulo: 'Pelicula 2',
-      genero: 'Comedia',
-      descripcion: 'Una divertida comedia para toda la familia.',
-      imagen: 'url-de-imagen-2.jpg',
-    },
-    {
-      titulo: 'Pelicula 1',
-      genero: 'Acción',
-      descripcion: 'Una película emocionante llena de acción.',
-      imagen: 'url-de-imagen-1.jpg',
-    },
-    {
-      titulo: 'Pelicula 2',
-      genero: 'Comedia',
-      descripcion: 'Una divertida comedia para toda la familia.',
-      imagen: 'url-de-imagen-2.jpg',
-    },
-    {
-      titulo: 'Pelicula 1',
-      genero: 'Acción',
-      descripcion: 'Una película emocionante llena de acción.',
-      imagen: 'url-de-imagen-1.jpg',
-    },
-    {
-      titulo: 'Pelicula 2',
-      genero: 'Comedia',
-      descripcion: 'Una divertida comedia para toda la familia.',
-      imagen: 'url-de-imagen-2.jpg',
-    },
-    {
-      titulo: 'Pelicula 1',
-      genero: 'Acción',
-      descripcion: 'Una película emocionante llena de acción.',
-      imagen: 'url-de-imagen-1.jpg',
-    },
-    {
-      titulo: 'Pelicula 2',
-      genero: 'Comedia',
-      descripcion: 'Una divertida comedia para toda la familia.',
-      imagen: 'url-de-imagen-2.jpg',
-    },
-    {
-      titulo: 'Pelicula 1',
-      genero: 'Acción',
-      descripcion: 'Una película emocionante llena de acción.',
-      imagen: 'url-de-imagen-1.jpg',
-    },
-    {
-      titulo: 'Pelicula 2',
-      genero: 'Comedia',
-      descripcion: 'Una divertida comedia para toda la familia.',
-      imagen: 'url-de-imagen-2.jpg',
-    },
-    {
-      titulo: 'Pelicula 1',
-      genero: 'Acción',
-      descripcion: 'Una película emocionante llena de acción.',
-      imagen: 'url-de-imagen-1.jpg',
-    },
-    {
-      titulo: 'Pelicula 2',
-      genero: 'Comedia',
-      descripcion: 'Una divertida comedia para toda la familia.',
-      imagen: 'url-de-imagen-2.jpg',
-    },
-    {
-      titulo: 'Pelicula 1',
-      genero: 'Acción',
-      descripcion: 'Una película emocionante llena de acción.',
-      imagen: 'url-de-imagen-1.jpg',
-    },
-    {
-      titulo: 'Pelicula 2',
-      genero: 'Comedia',
-      descripcion: 'Una divertida comedia para toda la familia.',
-      imagen: 'url-de-imagen-2.jpg',
+export class MoviesWebFiltersComponent implements OnInit {
+
+  movies: IMoviesVIew[] = [];
+  moviesFiltered: IMoviesVIew[] = [];
+
+
+  constructor(public dialog: MatDialog, private movieService: MovieService, private alertService: AlertService, private datePipe: DatePipe) {}
+
+  ngOnInit(): void{
+    this.getList()
+  }
+
+  getList(){
+    this.movieService.getMoviesAssignedList().subscribe({
+      next: (response)=>{
+        if(!response.succeded){
+          response.warnings.forEach(warn=>{
+            this.alertService.showWarningAlert('',warn);
+          })
+          return;
+        }
+
+        this.movies = response.dataList.map(record => ({
+          ...record
+        }));
+
+      }
+    })
+  }
+
+  transformTime(time: string | null | undefined): string | null {
+    if(!time){
+      return null;
     }
-  ];
+    const tempDate = new Date(`1970-01-01T${time}Z`);  // Agrega una fecha arbitraria
+    return this.datePipe.transform(tempDate, 'shortTime');
+  }
 
-
-  openMovieDialog(pelicula: any): void {
+  openMovieDialog(movie: IMoviesVIew): void {
     const dialogRef = this.dialog.open(DetailsMovieDialogComponent, {
-      width: '50%',
-      data: pelicula,
+      width: '70%',
+      data: movie,
     });
 
     dialogRef.afterClosed().subscribe(result => {

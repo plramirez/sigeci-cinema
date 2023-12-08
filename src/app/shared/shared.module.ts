@@ -6,6 +6,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { TopBarComponent } from './top-bar/top-bar.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { BrowserModule } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    MatDialogModule
+    MatDialogModule,
+    RouterModule
   ],
   exports: [
     ConfirmDeleteDialogComponent,

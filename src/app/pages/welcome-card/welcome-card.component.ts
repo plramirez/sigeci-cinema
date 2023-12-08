@@ -14,10 +14,10 @@ export class WelcomeCardComponent {
   isCustomerButtonOutline: boolean = true; // Inicializar como true para que el botón del cliente sea outline
 
   goCustomerModule(): void {
-    this.router.navigate(['/guest/webpage']);
+    this.router.navigate(['/guest']);
   }
 
   goAdminModule() {
-    this.router.navigate(['/account/login']);
+    this.router.navigate(['/admin']);
   }
 }

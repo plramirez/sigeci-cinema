@@ -12,6 +12,9 @@ import { DetailsMovieDialogComponent } from './details-movie-dialog/details-movi
 import { MatIconModule } from '@angular/material/icon';
 
 import { FormsModule } from '@angular/forms';
+import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
+import { SelectDropDownModule } from 'ngx-select-dropdown';
+import { SharedModule } from 'src/app/shared/shared.module';
 @NgModule({
   declarations: [
     MoviesWebFiltersComponent,
@@ -26,7 +29,11 @@ import { FormsModule } from '@angular/forms';
     GuestRoutingModule,
     MatDialogModule,
     MatIconModule,
-    FormsModule
+    FormsModule,
+    SelectDropDownModule,
+    SharedModule,
+    NgxMaskDirective,
+    NgxMaskPipe,
   ]
 })
 export class GuestModule { }

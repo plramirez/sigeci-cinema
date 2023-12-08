@@ -33,8 +33,7 @@ export class LoginComponent implements OnInit {
 
   doLogin(){
     
-    this.router.navigate(['/admin']);
-    return;
+    
 
     if(this.loginForm.invalid){
 

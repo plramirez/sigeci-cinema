@@ -34,6 +34,14 @@ export class CinemaService {
     });
   }
 
+  getCinemasWithMoviesAssignedByMovieId(movieId: number){
+    return this.httpClient.get<IResponseModel<ICinemaView>>(`${this.baseUrl}/Cinemas/WithMoviesAssignedByMovieId`,{
+      params: <any>{
+        movieId: movieId
+      }
+    });
+  }
+
   getCinemaScreensList(){
     return this.httpClient.get<IResponseModel<ICinemaScreenView>>(`${this.baseUrl}/CinemaScreens`);
   }

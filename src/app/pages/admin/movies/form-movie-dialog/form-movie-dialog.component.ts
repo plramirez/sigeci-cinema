@@ -31,6 +31,8 @@ export class FormMovieDialogComponent implements OnInit {
     directorName:  new FormControl<string | null>(null),
     releaseDate:  new FormControl<string | null>(null),
     releaseHour:  new FormControl<string | null>(null),
+    imageUploaded:  new FormControl<File | null>(null),
+    deleteImageUploaded:  new FormControl<boolean | null>(null),
     userId:  new FormControl<number | null | undefined>(null),
     actorsInMovies: new FormArray<any>([]),
 
@@ -153,11 +155,7 @@ export class FormMovieDialogComponent implements OnInit {
 
   handleFileInput(event: any): void {
     const file = event.target.files[0];
-    if (file) {
-      // Realiza acciones necesarias con el archivo (puedes subirlo a un servidor o procesarlo localmente)
-      // En este ejemplo, solo se obtiene la URL local del archivo
-      this.movie.coverImage = URL.createObjectURL(file);
-    }
+    this.form.get('imageUploaded')?.setValue(file ?? null);
   }
 
 

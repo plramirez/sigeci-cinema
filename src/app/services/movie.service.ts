@@ -33,12 +33,16 @@ export class MovieService {
     });
   }
 
+  getMoviesAssignedList(){
+    return this.httpClient.get<IResponseModel<IMoviesVIew>>(`${this.baseUrl}/Movies/GetAllAssigned`);
+  }
+
   getMoviesByScreensList(){
     return this.httpClient.get<IResponseModel<IMovieByScreenView>>(`${this.baseUrl}/MoviesByScreens`);
   }
 
   getMoviesInScreenByCinemaId(cinemaId: number){
-    return this.httpClient.get<IResponseModel<IMoviesVIew>>(`${this.baseUrl}/MoviesByScreens/ByCinemaId`,{
+    return this.httpClient.get<IResponseModel<IMovieByScreenView>>(`${this.baseUrl}/MoviesByScreens/ByCinemaId`,{
       params: <any>{
         cinemaId: cinemaId
       }
@@ -62,10 +66,13 @@ export class MovieService {
   }
 
   insertMovie(model: IMoviePost){
+ 
     return this.httpClient.post<IResponseModel<IMoviePost>>(`${this.baseUrl}/Movies`,model);
   }
 
   updateMovie(model: IMoviePost){
+
+   
     return this.httpClient.put<IResponseModel<IMoviePost>>(`${this.baseUrl}/Movies`,model);
   }
 
