@@ -58,21 +58,6 @@ export class LoginComponent implements OnInit {
         this.accountService.setToken(res.singleData.token);
         this.accountService.doLoginNavigate();
 
-      },
-      error: (err)=>{
-        if (err?.error instanceof IErrorResponse) {
-          // Error del backend
-          const errorResponse: IErrorResponse = err.error as IErrorResponse;
-          if (errorResponse?.Message) {
-            this.alertService.showErrorAlert('', errorResponse?.Message);
-          }
-          errorResponse?.Details?.forEach(err => {
-            this.alertService.showErrorAlert(err?.Title, err?.Message);
-          })
-        } else {
-          // Error del cliente o de red
-          this.alertService.showErrorAlert('Ha ocurrido un error inesperado', err?.error?.message);
-        }
       }
     })
 

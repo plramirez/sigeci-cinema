@@ -17,32 +17,22 @@ export class CustomErrorHandlerService {
   handleError(error: any): void {
 
     if (error instanceof HttpErrorResponse) {
-
-      if (error?.error instanceof IErrorResponse) {
-
-        // Error del backend
-        const errorResponse: IErrorResponse = error.error as IErrorResponse;
-
-        if (errorResponse?.Message) {
-          this.alertService.showErrorAlert('', errorResponse?.Message);
+      
+        // Comprueba si el error tiene las propiedades esperadas
+        if (error?.error && 'Message' in error.error && 'Details' in error.error) {
+          // Error del backend
+          const errorResponse: IErrorResponse = error.error;
+          if (errorResponse?.Message) {
+            this.alertService.showErrorAlert('', errorResponse?.Message);
+          }
+          errorResponse?.Details?.forEach(detail => {
+            this.alertService.showErrorAlert(detail?.Title, detail?.Message);
+          })
+        } else {
+          // Error del cliente o de red
+          this.alertService.showErrorAlert('Ha ocurrido un error inesperado', error?.message);
         }
-
-        errorResponse?.Details?.forEach(err => {
-          this.alertService.showErrorAlert(err?.Title, err?.Message);
-        })
-
-        if ([UNAUTHORIZED, FORBIDDEN].includes(error?.status)) {
-          // auto logout if 401 or 403 response returned from api
-          this.alertService.showErrorAlert('Error', 'Usted no está autorizado para realizar esta acción');
-
-        }
-
-      } else {
-
-        // Error del cliente o de red
-        this.alertService.showErrorAlert('Ha ocurrido un error inesperado', error?.error?.message);
-
-      }
+      
     } else {
 
       // Otro tipo de error (no relacionado con HTTP)

@@ -50,7 +50,7 @@ export interface IMovieClassificationVIew {
     lastModificationAt: string
     lastModificationByUserId: number
 }
-  
+
 export interface IMovieGenderView {
     genderId: number
     genderName: string
@@ -60,4 +60,37 @@ export interface IMovieGenderView {
     lastModificationAt: string
     lastModificationByUserId: number
 }
-  
+
+
+export interface IMovieByScreenView {
+    movieByScreenId: number
+    movieId: number
+    movieName: string
+    screenId: number
+    screenName: string
+    cinemaId: number
+    cinemaName: string
+    showingDate: string
+    showingHour: string
+    transformedTime?: string | null | undefined
+    priceBySeat: number
+    isHoliday: boolean
+    holidayName: string
+    isRecordActive: boolean
+    createdAt: string
+    createdByUserId: number
+    lastModificationAt: string
+    lastModificationByUserId: number
+}
+
+export interface IMovieByScreenPost {
+    movieByScreenId: number | null
+    movieId: number | null
+    screenId: number | null
+    showingDate: string | null
+    showingHour: string | null
+    priceBySeat: number | null
+    isHoliday: boolean | null
+    holidayName: string | null
+    userId: number | null | undefined
+}

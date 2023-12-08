@@ -20,3 +20,4 @@ interface ErrorDetails {
     Title: string;
     Message: string;
 }
+

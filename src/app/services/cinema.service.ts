@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { IResponseModel } from '../utils/models/response';
-import { ICinemaPost, ICinemaView } from '../utils/models/cinema';
+import { ICinemaPost, ICinemaScreenPost, ICinemaScreenView, ICinemaView } from '../utils/models/cinema';
 
 
 @Injectable({
@@ -34,6 +34,18 @@ export class CinemaService {
     });
   }
 
+  getCinemaScreensList(){
+    return this.httpClient.get<IResponseModel<ICinemaScreenView>>(`${this.baseUrl}/CinemaScreens`);
+  }
+
+  getCinemaScreenByCinemaId(cinemaId: number){
+    return this.httpClient.get<IResponseModel<ICinemaScreenView>>(`${this.baseUrl}/CinemaScreens/ByCinemaId`,{
+      params: <any>{
+        cinemaId: cinemaId
+      }
+    });
+  }
+
   insertCinema(model: ICinemaPost){
     return this.httpClient.post<IResponseModel<ICinemaPost>>(`${this.baseUrl}/Cinemas`,model);
   }
@@ -46,6 +58,23 @@ export class CinemaService {
     return this.httpClient.delete<IResponseModel<null>>(`${this.baseUrl}/Cinemas`,{
       params: <any>{
         cinemaId: cinemaId,
+        userId: userId
+      }
+    });
+  }
+
+  insertCinemaScreen(model: ICinemaScreenPost){
+    return this.httpClient.post<IResponseModel<ICinemaScreenPost>>(`${this.baseUrl}/CinemaScreens`,model);
+  }
+
+  updateCinemaScreen(model: ICinemaScreenPost){
+    return this.httpClient.put<IResponseModel<ICinemaScreenPost>>(`${this.baseUrl}/CinemaScreens`,model);
+  }
+
+  deleteCinemaScreen(screenId: number, userId: number){
+    return this.httpClient.delete<IResponseModel<null>>(`${this.baseUrl}/CinemaScreens`,{
+      params: <any>{
+        screenId: screenId,
         userId: userId
       }
     });

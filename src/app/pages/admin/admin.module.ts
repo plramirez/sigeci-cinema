@@ -13,6 +13,9 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { SelectDropDownModule } from 'ngx-select-dropdown';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { FormCinemaDialogComponent } from './cinemas/form-cinema-dialog/form-cinema-dialog.component';
+import { FormScreenDialogComponent } from './rooms/form-screen-dialog/form-screen-dialog.component';
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { FormAssignmentDialogComponent } from './assignment/form-assignment-dialog/form-assignment-dialog.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +25,9 @@ import { FormCinemaDialogComponent } from './cinemas/form-cinema-dialog/form-cin
     RoomsComponent,
     AssignmentComponent,
     FormMovieDialogComponent,
-    FormCinemaDialogComponent
+    FormCinemaDialogComponent,
+    FormScreenDialogComponent,
+    FormAssignmentDialogComponent
   ],
   imports: [
     CommonModule,
@@ -31,7 +36,10 @@ import { FormCinemaDialogComponent } from './cinemas/form-cinema-dialog/form-cin
     ReactiveFormsModule,
     AdminRoutingModule,
     SelectDropDownModule,
-    SharedModule
-  ]
+    SharedModule,
+    NgxMaskDirective,
+    NgxMaskPipe,
+  ],
+  providers:[provideNgxMask()]
 })
 export class AdminModule { }
