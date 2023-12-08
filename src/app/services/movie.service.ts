@@ -50,7 +50,7 @@ export class MovieService {
   }
 
   deleteMovie(movieId: number, userId: number){
-    return this.httpClient.delete<IResponseModel<IMoviesVIew>>(`${this.baseUrl}/Movies`,{
+    return this.httpClient.delete<IResponseModel<null>>(`${this.baseUrl}/Movies`,{
       params: <any>{
         movieId: movieId,
         userId: userId
@@ -59,7 +59,7 @@ export class MovieService {
   }
 
   deleteActorInMovie(acInMoId: number, userId: number){
-    return this.httpClient.delete<IResponseModel<IMoviesVIew>>(`${this.baseUrl}/Movies/DeleteActorInMovie`,{
+    return this.httpClient.delete<IResponseModel<null>>(`${this.baseUrl}/Movies/DeleteActorInMovie`,{
       params: <any>{
         acInMoId: acInMoId,
         userId: userId

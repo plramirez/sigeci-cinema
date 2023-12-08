@@ -128,6 +128,7 @@ export class MoviesComponent implements OnInit {
           return;
         }
 
+        this.alertService.showSuccessAlert('','Pelicula eliminada satisfactoriamente');
         this.getMovieList();
 
       },

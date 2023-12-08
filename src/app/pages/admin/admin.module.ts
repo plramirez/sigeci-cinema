@@ -12,6 +12,7 @@ import { FormMovieDialogComponent } from './movies/form-movie-dialog/form-movie-
 import { MatDialogModule } from '@angular/material/dialog';
 import { SelectDropDownModule } from 'ngx-select-dropdown';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { FormCinemaDialogComponent } from './cinemas/form-cinema-dialog/form-cinema-dialog.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
     CinemasComponent,
     RoomsComponent,
     AssignmentComponent,
-    FormMovieDialogComponent
+    FormMovieDialogComponent,
+    FormCinemaDialogComponent
   ],
   imports: [
     CommonModule,

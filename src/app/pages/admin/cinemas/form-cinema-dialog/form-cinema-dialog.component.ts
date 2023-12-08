@@ -3,18 +3,21 @@ import { Component, Inject, Input, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { NgxDropdownConfig } from 'ngx-select-dropdown';
+import { AddressService } from 'src/app/services/address.service';
 import { AlertService } from 'src/app/services/alert.service';
-import { MovieService } from 'src/app/services/movie.service';
+import { CinemaService } from 'src/app/services/cinema.service';
+import { ICountryStateView, ICountryView } from 'src/app/utils/models/address';
+import { ICinemaPost, ICinemaView } from 'src/app/utils/models/cinema';
 import { EnumOperation } from 'src/app/utils/models/enums';
-import { IMovieClassificationVIew, IMovieGenderView, IMoviePost, IMoviesVIew } from 'src/app/utils/models/movies';
 import { IErrorResponse } from 'src/app/utils/models/response';
 
 @Component({
-  selector: 'app-form-movie-dialog',
-  templateUrl: './form-movie-dialog.component.html',
-  styleUrls: ['./form-movie-dialog.component.css']
+  selector: 'app-form-cinema-dialog',
+  templateUrl: './form-cinema-dialog.component.html',
+  styleUrls: ['./form-cinema-dialog.component.css']
 })
-export class FormMovieDialogComponent implements OnInit {
+export class FormCinemaDialogComponent implements OnInit {
+
   title: string = this.data.viewType == EnumOperation.Insert ? "Agregar" :  this.data.viewType == EnumOperation.Update ? "Editar" : "Ver";
 
   movie: any = {
@@ -22,42 +25,43 @@ export class FormMovieDialogComponent implements OnInit {
   }
 
   form = new FormGroup({
-    movieId: new FormControl<number>(0, Validators.required),
-    movieName:   new FormControl<string | null>(null, Validators.required),
-    genderId:  new FormControl<number | null>(null),
-    classificationId:  new FormControl<number| null>(null),
-    synopsis:  new FormControl<string | null>(null),
-    directorName:  new FormControl<string | null>(null),
-    releaseDate:  new FormControl<string | null>(null),
-    releaseHour:  new FormControl<string | null>(null),
-    userId:  new FormControl<number | null | undefined>(null),
-    actorsInMovies: new FormArray<any>([]),
+    cinemaId: new FormControl<number >(0, Validators.required),
+    cinemaName: new FormControl<string | null>(null, Validators.required),
+    countryStateId: new FormControl<number | null>(null, Validators.required),
+    primaryAddress: new FormControl<string | null>(null),
+    phoneNumber: new FormControl<string | null>(null),
+    email: new FormControl<string | null>(null),
+    locationLatitude: new FormControl<number | null>(null), 
+    locationLongitude: new FormControl<number | null>(null), 
+    userId: new FormControl<number | null | undefined >(null),
 
-    classificationObject: new FormControl<IMovieClassificationVIew | null>(null),
-    genderObject: new FormControl<IMovieGenderView | null>(null),
+    countryObject: new FormControl<ICountryView | null>(null),
+    countryId: new FormControl<number | null>(null),
+    countryStateObject: new FormControl<ICountryStateView | null>(null),
   });
 
-  classifiDropConfig!: NgxDropdownConfig;
-  gendersDropConfig!: NgxDropdownConfig;
+  countryDropConfig!: NgxDropdownConfig;
+  countryStateDropConfig!: NgxDropdownConfig;
 
-  genders: IMovieGenderView[] = []
-  classifications: IMovieClassificationVIew[] = []
+  countries: ICountryView[] = []
+  countryStates: ICountryStateView[] = []
 
-  constructor(public dialogRef: MatDialogRef<FormMovieDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { movieData: IMoviesVIew, viewType: EnumOperation },
+  constructor(public dialogRef: MatDialogRef<FormCinemaDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: { cinemaData: ICinemaView, viewType: EnumOperation },
     private datePipe: DatePipe,
-    private movieService: MovieService,
-    private alertService: AlertService
+    private cinemaService: CinemaService,
+    private alertService: AlertService,
+    private addressService: AddressService
   ) {
 
     switch(data.viewType){
       case EnumOperation.Insert:
         break;
       case EnumOperation.Update:
-        this.matchData(data.movieData);
+        this.matchData(data.cinemaData);
         break;
       case EnumOperation.View:
-        this.matchData(data.movieData);
+        this.matchData(data.cinemaData);
         this.form.disable();
         break;
     }
@@ -65,21 +69,17 @@ export class FormMovieDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.classifiDropConfig = this.getDropDownConfiguration('classificationName');
-    this.gendersDropConfig = this.getDropDownConfiguration('genderName');
-    this.getClassifications();
-    this.getGenders();
+    this.countryDropConfig = this.getDropDownConfiguration('countryName');
+    this.countryStateDropConfig = this.getDropDownConfiguration('stateName');
+    this.getCountries();
   }
 
-  matchData(data:IMoviesVIew){
-    this.form.patchValue({
-      ...data,
-      releaseDate: this.datePipe.transform(data.releaseDate,'yyyy-MM-dd')
-    });
+  matchData(data:ICinemaView){
+    this.form.patchValue(data);
   }
 
-  getClassifications(){
-    this.movieService.getMovieClassifications().subscribe({
+  getCountries(){
+    this.addressService.getCountriesList().subscribe({
       next: (res) => {
         if (!res.succeded) {
           res.warnings.forEach(err => {
@@ -89,19 +89,23 @@ export class FormMovieDialogComponent implements OnInit {
           return;
         }
 
-        this.classifications = [...res.dataList];
+        this.countries = [...res.dataList];
 
-        const classiId = this.form.get('classificationId')?.value;
-        if (classiId) {
-          const type = this.classifications.find(x => x.classificationId == classiId);
-          this.form.get('classificationObject')?.setValue(type ?? null);
+        const countryId = this.form.get('countryId')?.value;
+        if (countryId) {
+          const country = this.countries.find(x => x.countryId == countryId);
+          this.form.get('countryObject')?.setValue(country ?? null);
+
+          this.getCountryStates(countryId);
         }
+
+        
       }
     })
   }
 
-  getGenders(){
-    this.movieService.getMovieGenders().subscribe({
+  getCountryStates(countryId: number | null | undefined){
+    this.addressService.getStatesList().subscribe({
       next: (res) => {
         if (!res.succeded) {
           res.warnings.forEach(err => {
@@ -111,25 +115,35 @@ export class FormMovieDialogComponent implements OnInit {
           return;
         }
 
-        this.genders = [...res.dataList];
 
-        const genderId = this.form.get('genderId')?.value;
-        if (genderId) {
-          const type = this.genders.find(x => x.genderId == genderId);
-          this.form.get('genderObject')?.setValue(type ?? null);
+        if(countryId){
+          this.countryStates = [...res.dataList].filter(x=>x.countryId == countryId);
         }
+
+        const stateId = this.form.get('countryStateId')?.value;
+        if (stateId) {
+          const countryState = this.countryStates.find(x => x.stateId == stateId);
+          this.form.get('countryStateObject')?.setValue(countryState ?? null);
+        }
+
       }
     })
   }
 
-  changeClassification() {
-    const item: IMovieClassificationVIew | undefined | null = this.form.get('classificationObject')?.value
-    this.form.get('classificationId')?.setValue(item?.classificationId ?? null)
+  changeCountry() {
+    const country: ICountryView | undefined | null = this.form.get('countryObject')?.value
+    this.form.get('countryId')?.setValue(country?.countryId ?? null)
+
+    this.form.get('countryStateObject')?.setValue(null)
+    this.form.get('countryStateId')?.setValue(null)
+    this.countryStates = [];
+
+    this.getCountryStates(country?.countryId);
   }
 
-  changeGender() {
-    const item: IMovieGenderView | undefined | null = this.form.get('genderObject')?.value
-    this.form.get('genderId')?.setValue(item?.genderId ?? null)
+  changeCountryState() {
+    const state: ICountryStateView | undefined | null = this.form.get('countryStateObject')?.value
+    this.form.get('countryStateId')?.setValue(state?.stateId ?? null)
   }
 
   private getDropDownConfiguration(displayKey: string = 'name', placeholder: string = 'Seleccionar'): any {
@@ -170,8 +184,7 @@ export class FormMovieDialogComponent implements OnInit {
       return;
     }
 
-    let model: IMoviePost = this.form.getRawValue();
-    model.releaseHour = this.convertToHHMMSS(model?.releaseHour);
+    let model: ICinemaPost = this.form.getRawValue();
 
     if(this.data.viewType == EnumOperation.Insert){
       this.save(model);
@@ -181,8 +194,8 @@ export class FormMovieDialogComponent implements OnInit {
 
   }
 
-  private save(model: IMoviePost){
-    this.movieService.insertMovie(model).subscribe({
+  private save(model: ICinemaPost){
+    this.cinemaService.insertCinema(model).subscribe({
       next: (res)=>{
         if(!res.succeded){
           res.warnings.forEach(warn=>{
@@ -191,7 +204,7 @@ export class FormMovieDialogComponent implements OnInit {
           return;
         }
 
-        this.alertService.showSuccessAlert('','Pelicula creada satisfactoriamente');
+        this.alertService.showSuccessAlert('','Cine creado satisfactoriamente');
         this.dialogRef.close({succeded:true})
       },
       error: (err)=>{
@@ -212,8 +225,8 @@ export class FormMovieDialogComponent implements OnInit {
     })
   }
 
-  private update(model: IMoviePost){
-    this.movieService.updateMovie(model).subscribe({
+  private update(model: ICinemaPost){
+    this.cinemaService.updateCinema(model).subscribe({
       next: (res)=>{
         if(!res.succeded){
           res.warnings.forEach(warn=>{
@@ -222,7 +235,7 @@ export class FormMovieDialogComponent implements OnInit {
           return;
         }
 
-        this.alertService.showSuccessAlert('','Pelicula actualizada satisfactoriamente');
+        this.alertService.showSuccessAlert('','Cine actualizado satisfactoriamente');
         this.dialogRef.close({succeded:true})
       },
       error: (err)=>{
@@ -243,14 +256,4 @@ export class FormMovieDialogComponent implements OnInit {
     })
   }
 
-  convertToHHMMSS(time: string | null): string | null {
-    const timeParts = time?.split(':');
-    if (timeParts?.length === 2) {
-        return time + ':00';
-    } else if (timeParts?.length === 3) {
-        return time;
-    } else {
-        return null
-    }
-  }
 }
