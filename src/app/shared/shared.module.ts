@@ -6,13 +6,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { TopBarComponent } from './top-bar/top-bar.component';
 
-
 @NgModule({
   declarations: [
     ConfirmDeleteDialogComponent,
     SearcherComponent,
     SidebarComponent,
-    TopBarComponent
+    TopBarComponent,
+
   ],
   imports: [
     CommonModule,

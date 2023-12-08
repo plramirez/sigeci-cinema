@@ -1,18 +1,29 @@
 <!-- header.component.html -->
 <header>
-  <div class="logo-container">
-    <img src="path/to/logo.png" alt="Logo">
+  <div class="top-bar">
+    <div class="logo-container">
+      <img [src]="imagePath" alt="Logo">
+    </div>
+    <div class="menu-container">
+      <ul class="menu-list">
+        <li><a href="#">Carteleras</a></li>
+        <li><a href="#">Estrenos</a></li>
+        <li><a href="#">Próximamente</a></li>
+      </ul>
+    </div>
+    <div class="admin-access">
+      <button class="outline-button">Acceder como Administrador</button>
+    </div>
   </div>
-  <div class="menu-container">
-    <ul class="menu-list">
-      <li><a href="#">Carteleros</a></li>
-      <li><a href="#">Estrenos</a></li>
-      <li><a href="#">Próximamente</a></li>
-    </ul>
-    <button class="outline-button">Acceder como Administrador</button>
+  <div class="bottom-bar">
+    <div class="centered-content">
+      <div class="search-bar">
+        <input type="text" placeholder="Buscar...">
+        <button class="filter-icon" (click)="openFilterMenu()">
+          <i class="material-icons">filter_list</i> Filtro
+        </button>
+      </div>
+    </div>
   </div>
-  <div class="search-bar">
-    <input type="text" placeholder="Buscar...">
-    <button class="filter-icon" (click)="openFilterMenu()">Filtro</button>
-  </div>
+  <app-filter-toggle-sidebar *ngIf="filterMenuService.menuOpen$ | async"></app-filter-toggle-sidebar>
 </header>

@@ -1,0 +1,57 @@
+/* detalle-pelicula.component.css */
+.detalle-contenedor {
+  display: flex;
+  padding: 20px;
+}
+
+.imagen-columna {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.informacion-columna {
+  flex: 2;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.container-dialog{
+  padding: 20px;
+}
+
+.dropdown-column {
+  display: flex;
+  flex-direction: column;
+  /* Estilos para la columna de dropdowns */
+}
+
+.map-column {
+  /* Estilos para la columna del mapa de Google */
+  /* Asegúrate de ajustar el tamaño y otros estilos según tus necesidades */
+  width: 200px;
+  height: 200px;
+}
+
+/* detalle-pelicula.component.css */
+.columns-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.dropdown-column {
+  width: 50%; /* Ajusta según tus necesidades */
+}
+
+
+#google-map {
+  width: 100%; /* Ajusta según tus necesidades */
+  height: 100px; /* Ajusta según tus necesidades */
+}
+
+label{
+  margin-top: 10px;
+}

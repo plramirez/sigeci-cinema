@@ -1,0 +1,24 @@
+/* pelicula-card.component.css */
+.pelicula-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 16px;
+  width: 200px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+h3 {
+  margin: 8px 0;
+  font-size: 1.2em;
+}
+
+p {
+  color: #555;
+}
