@@ -3,6 +3,7 @@ import { Component, Inject, Input, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { NgxDropdownConfig } from 'ngx-select-dropdown';
+import { AccountService } from 'src/app/services/account.service';
 import { AddressService } from 'src/app/services/address.service';
 import { AlertService } from 'src/app/services/alert.service';
 import { CinemaService } from 'src/app/services/cinema.service';
@@ -51,7 +52,8 @@ export class FormCinemaDialogComponent implements OnInit {
     private datePipe: DatePipe,
     private cinemaService: CinemaService,
     private alertService: AlertService,
-    private addressService: AddressService
+    private addressService: AddressService,
+    private accountService: AccountService
   ) {
 
     switch(data.viewType){
@@ -185,6 +187,7 @@ export class FormCinemaDialogComponent implements OnInit {
     }
 
     let model: ICinemaPost = this.form.getRawValue();
+    model.userId = this.accountService.getUserId();
 
     if(this.data.viewType == EnumOperation.Insert){
       this.save(model);

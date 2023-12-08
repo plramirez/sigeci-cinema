@@ -14,14 +14,14 @@
     <!-- Contenido de la columna derecha -->
     <div class="column">
       <h2 class="title">Iniciar Sesión</h2>
-      <form>
-        <label for="username">Usuario:</label>
-        <input type="text" id="username" name="username" >
+      <form [formGroup]="loginForm">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" formControlName="email" >
 
         <label for="password">Contraseña:</label>
-        <input type="password" id="password" name="password">
+        <input type="password" id="password" name="password" formControlName="password">
 
-        <button type="button"  (click)="onIngresarClick()">Ingresar</button>
+        <button type="button"  (click)="doLogin()">Ingresar</button>
       </form>
 
       <p class="register-text">¿Nuevo usuario? <span >Registrar nuevo usuario</span></p>

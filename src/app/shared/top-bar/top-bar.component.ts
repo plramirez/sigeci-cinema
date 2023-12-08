@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router, NavigationEnd } from '@angular/router';
+import { AccountService } from 'src/app/services/account.service';
+import Swal from 'sweetalert2';
+import { ConfirmDeleteDialogComponent } from '../confirm-delete-dialog/confirm-delete-dialog.component';
 
 
 @Component({
@@ -9,13 +13,24 @@ import { Router, NavigationEnd } from '@angular/router';
 })
 export class TopBarComponent {
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private accountService: AccountService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
   }
 
-  logout(): void {
-    this.router.navigate(['/account/login']);
-  }
 
+  doLogout(){
+
+    const dialogRef = this.dialog.open(ConfirmDeleteDialogComponent, {
+      width: '300px',
+      data: { title: 'Confirmar', message: '¿Seguro/a que desea cerrar la sesión actual?' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.accountService.logOut();
+      }
+    });
+
+  }
 }

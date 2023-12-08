@@ -3,6 +3,7 @@ import { Component, Inject, Input, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { NgxDropdownConfig } from 'ngx-select-dropdown';
+import { AccountService } from 'src/app/services/account.service';
 import { AlertService } from 'src/app/services/alert.service';
 import { MovieService } from 'src/app/services/movie.service';
 import { EnumOperation } from 'src/app/utils/models/enums';
@@ -47,7 +48,8 @@ export class FormMovieDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: { movieData: IMoviesVIew, viewType: EnumOperation },
     private datePipe: DatePipe,
     private movieService: MovieService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private accountService: AccountService
   ) {
 
     switch(data.viewType){
@@ -172,6 +174,7 @@ export class FormMovieDialogComponent implements OnInit {
 
     let model: IMoviePost = this.form.getRawValue();
     model.releaseHour = this.convertToHHMMSS(model?.releaseHour);
+    model.userId = this.accountService.getUserId();
 
     if(this.data.viewType == EnumOperation.Insert){
       this.save(model);

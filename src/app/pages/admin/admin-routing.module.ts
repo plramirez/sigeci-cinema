@@ -7,6 +7,7 @@ import { RoomsComponent } from './rooms/rooms.component';
 import { AssignmentComponent } from './assignment/assignment.component';
 
 const routes: Routes = [
+  { path: '', redirectTo: 'dashboard', pathMatch:'full'},
   { path: 'dashboard', component: DashboardComponent },
   { path: 'movies', component: MoviesComponent },
   { path: 'cinemas', component: CinemasComponent },

@@ -49,9 +49,19 @@ export class AccountService {
     const token = this.getToken();
 
     let data: ITokenData | null = this.jwtHelper.decodeToken(token);
-    data!.role = this.jwtHelper.decodeToken(token)['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
-    data!.identifier = this.jwtHelper.decodeToken(token)['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'];
-    data!.name = this.jwtHelper.decodeToken(token)['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'];
+
+    if(!data){
+      return data;
+    }
+
+    try{
+      data!.role = this.jwtHelper.decodeToken(token)['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+      data!.identifier = this.jwtHelper.decodeToken(token)['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'];
+      data!.name = this.jwtHelper.decodeToken(token)['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'];
+    }catch{
+
+    }
+
     return data;
   }
 
@@ -65,7 +75,7 @@ export class AccountService {
       this.redirectUrl = '';
 
     } else {
-      route = '/project'
+      route = '/admin'
     }
 
     return route;
