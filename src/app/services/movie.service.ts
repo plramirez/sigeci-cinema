@@ -66,13 +66,10 @@ export class MovieService {
   }
 
   insertMovie(model: IMoviePost){
- 
     return this.httpClient.post<IResponseModel<IMoviePost>>(`${this.baseUrl}/Movies`,model);
   }
 
   updateMovie(model: IMoviePost){
-
-   
     return this.httpClient.put<IResponseModel<IMoviePost>>(`${this.baseUrl}/Movies`,model);
   }
 

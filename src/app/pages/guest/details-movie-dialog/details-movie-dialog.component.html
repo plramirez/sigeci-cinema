@@ -1,27 +1,31 @@
 <!-- detalle-pelicula.component.html -->
 <div class="container-dialog" style="min-height: 600px;">
-  <h3>{{ data?.movieName }}</h3>
+  <h3>{{ data?.movieName | titlecase }}</h3>
   <button mat-icon-button class="close-button btn-danger btn" (click)="onCloseClick()">
     <i class="fas fa-times"></i>
   </button>
-  <div class="detalle-contenedor">
-    <div class="imagen-columna">
-      <img [src]="data?.imageUrl" alt="{{ data?.movieName }}">
+  <div class="row mt-4">
+    <div class="col-md-4  ">
+      <div class="img-container text-center">
+        <img [src]="data?.imageUrl"  alt="{{ data?.movieName }}">
+      </div>
+      
     </div>
-    <div class="informacion-columna">
+    <div class="col-md-4">
       <p><strong>Directores:</strong> {{ data?.directorName || 'N/A' }}</p>
       <!-- <p><strong>Autores:</strong> {{ data.autores }}</p> -->
       <p><strong>Género:</strong> {{ data?.genderName || 'N/A' }}</p>
       <p><strong>Clasificación:</strong> {{ data?.classificationName || 'N/A' }}</p>
       <!-- Agrega más información según tus necesidades -->
     </div>
+    <div class="col-md-4">
+      <p><strong>Sinopsis:</strong> </p>
+      <p>
+        {{ data?.synopsis }}
+      </p>
+    </div>
   </div>
-  <div class="row mt-1 mb-1">
-    <p><strong>Sinopsis:</strong> </p>
-    <p>
-      {{ data?.synopsis }}
-    </p>
-  </div>
+ 
   <div class="columns-container">
     <!-- Dropdowns en una columna -->
     <div class="dropdown-column">

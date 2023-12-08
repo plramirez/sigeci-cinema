@@ -4,9 +4,17 @@
   padding: 20px;
 }
 
-.imagen-columna {
-  flex: 1;
-  margin-right: 20px;
+.img-container{
+  width: 100%; /* Cambia esto al tamaño que desees */
+  height: 150px; /* Cambia esto al tamaño que desees */
+  overflow: hidden;
+}
+
+
+.img-container img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
 }
 
 .informacion-columna {
