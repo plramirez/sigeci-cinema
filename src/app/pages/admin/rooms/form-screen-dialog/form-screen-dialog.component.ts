@@ -23,6 +23,8 @@ export class FormScreenDialogComponent implements OnInit {
     coverImage: ''
   }
 
+  enumOperations = EnumOperation;
+
   form = new FormGroup({
     screenId: new FormControl<number >(0, Validators.required),
     screenName: new FormControl<string | null>(null, Validators.required),

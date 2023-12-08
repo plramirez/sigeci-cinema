@@ -34,14 +34,20 @@
       <label for="releaseHour">Hora de Estreno:</label>
       <input type="time" id="releaseHour" name="releaseHour" formControlName="releaseHour">
 
-      <label for="coverImage">Portada (URL de la imagen o cargar desde archivo):</label>
+      <label for="coverImage">Portada:</label>
+      <div class="img-container text-center d-flex justify-content-center mb-2">
+        <img [src]="imageUrl" id="my-image" onerror="this.error=null; this.src='/assets/no-image.png'">
+      </div>
       <!-- <input type="text" id="coverImage" name="coverImage" [(ngModel)]="movie.coverImage"
         placeholder="URL de la imagen"> -->
-      <input type="file" id="fileInput" (change)="handleFileInput($event)">
+      <input *ngIf="this.data.viewType != enumOperations.View" type="file" id="fileInput" accept="image/*" (change)="handleFileInput($event)">
     </div>
   </div>
   <div class="button-container">
-    <button class="outline-button" mat-button (click)="onCancelClick()">Cancelar</button>
-    <button class="fill-button" mat-raised-button color="primary" (click)="onSaveClick()">Guardar</button>
+    <button class="outline-button" mat-button (click)="onCancelClick()">
+      <span *ngIf="this.data.viewType != enumOperations.View">Cancelar</span>
+      <span *ngIf="this.data.viewType == enumOperations.View">Cerrar</span>
+    </button>
+    <button class="fill-button" mat-raised-button color="primary" (click)="onSaveClick()" *ngIf="this.data.viewType != enumOperations.View">Guardar</button>
   </div>
 </form>

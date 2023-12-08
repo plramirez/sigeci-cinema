@@ -5,16 +5,19 @@
 }
 
 .img-container{
-  width: 100%; /* Cambia esto al tamaño que desees */
-  height: 150px; /* Cambia esto al tamaño que desees */
+  width: 100%; /* or specify a fixed width */
+  max-width: 400px; /* set a maximum width if needed */
+  height: 450px;
+  position: relative;
   overflow: hidden;
 }
 
 
 .img-container img {
   width: 100%;
-  height: auto;
-  border-radius: 4px;
+  height: 100%;
+  object-fit:contain; /* or 'contain' based on your preference */
+  object-position: center; /* or adjust as needed */
 }
 
 .informacion-columna {

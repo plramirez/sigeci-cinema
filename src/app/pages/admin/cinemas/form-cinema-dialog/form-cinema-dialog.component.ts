@@ -25,6 +25,8 @@ export class FormCinemaDialogComponent implements OnInit {
     coverImage: ''
   }
 
+  enumOperations = EnumOperation;
+  
   form = new FormGroup({
     cinemaId: new FormControl<number >(0, Validators.required),
     cinemaName: new FormControl<string | null>(null, Validators.required),

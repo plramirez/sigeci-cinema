@@ -7,8 +7,9 @@ import { AccountService } from 'src/app/services/account.service';
 import { AlertService } from 'src/app/services/alert.service';
 import { MovieService } from 'src/app/services/movie.service';
 import { EnumOperation } from 'src/app/utils/models/enums';
-import { IMovieClassificationVIew, IMovieGenderView, IMoviePost, IMoviesVIew } from 'src/app/utils/models/movies';
+import { IMovieClassificationVIew, IMovieGenderView, IMovieImagePost, IMoviePost, IMoviesVIew } from 'src/app/utils/models/movies';
 import { IErrorResponse } from 'src/app/utils/models/response';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-form-movie-dialog',
@@ -16,24 +17,26 @@ import { IErrorResponse } from 'src/app/utils/models/response';
   styleUrls: ['./form-movie-dialog.component.css']
 })
 export class FormMovieDialogComponent implements OnInit {
-  title: string = this.data.viewType == EnumOperation.Insert ? "Agregar" :  this.data.viewType == EnumOperation.Update ? "Editar" : "Ver";
+  title: string = this.data.viewType == EnumOperation.Insert ? "Agregar" : this.data.viewType == EnumOperation.Update ? "Editar" : "Ver";
 
   movie: any = {
     coverImage: ''
   }
 
+  enumOperations = EnumOperation;
+
   form = new FormGroup({
     movieId: new FormControl<number>(0, Validators.required),
-    movieName:   new FormControl<string | null>(null, Validators.required),
-    genderId:  new FormControl<number | null>(null),
-    classificationId:  new FormControl<number| null>(null),
-    synopsis:  new FormControl<string | null>(null),
-    directorName:  new FormControl<string | null>(null),
-    releaseDate:  new FormControl<string | null>(null),
-    releaseHour:  new FormControl<string | null>(null),
-    imageUploaded:  new FormControl<File | null>(null),
-    deleteImageUploaded:  new FormControl<boolean | null>(null),
-    userId:  new FormControl<number | null | undefined>(null),
+    movieName: new FormControl<string | null>(null, Validators.required),
+    genderId: new FormControl<number | null>(null),
+    classificationId: new FormControl<number | null>(null),
+    synopsis: new FormControl<string | null>(null),
+    directorName: new FormControl<string | null>(null),
+    releaseDate: new FormControl<string | null>(null),
+    releaseHour: new FormControl<string | null>(null),
+    imageUploaded: new FormControl<File | null>(null),
+    deleteImageUploaded: new FormControl<boolean | null>(null),
+    userId: new FormControl<number | null | undefined>(null),
     actorsInMovies: new FormArray<any>([]),
 
     classificationObject: new FormControl<IMovieClassificationVIew | null>(null),
@@ -46,6 +49,8 @@ export class FormMovieDialogComponent implements OnInit {
   genders: IMovieGenderView[] = []
   classifications: IMovieClassificationVIew[] = []
 
+  imageUrl: string = "/assets/no-image.png";
+
   constructor(public dialogRef: MatDialogRef<FormMovieDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { movieData: IMoviesVIew, viewType: EnumOperation },
     private datePipe: DatePipe,
@@ -54,7 +59,11 @@ export class FormMovieDialogComponent implements OnInit {
     private accountService: AccountService
   ) {
 
-    switch(data.viewType){
+    if(data.movieData?.movieId > 0){
+      this.imageUrl = `${environment.API_URL}/Movies/ViewImage/${data.movieData.movieId}`
+    }
+
+    switch (data.viewType) {
       case EnumOperation.Insert:
         break;
       case EnumOperation.Update:
@@ -75,14 +84,14 @@ export class FormMovieDialogComponent implements OnInit {
     this.getGenders();
   }
 
-  matchData(data:IMoviesVIew){
+  matchData(data: IMoviesVIew) {
     this.form.patchValue({
       ...data,
-      releaseDate: this.datePipe.transform(data.releaseDate,'yyyy-MM-dd')
+      releaseDate: this.datePipe.transform(data.releaseDate, 'yyyy-MM-dd')
     });
   }
 
-  getClassifications(){
+  getClassifications() {
     this.movieService.getMovieClassifications().subscribe({
       next: (res) => {
         if (!res.succeded) {
@@ -104,7 +113,7 @@ export class FormMovieDialogComponent implements OnInit {
     })
   }
 
-  getGenders(){
+  getGenders() {
     this.movieService.getMovieGenders().subscribe({
       next: (res) => {
         if (!res.succeded) {
@@ -156,6 +165,7 @@ export class FormMovieDialogComponent implements OnInit {
   handleFileInput(event: any): void {
     const file = event.target.files[0];
     this.form.get('imageUploaded')?.setValue(file ?? null);
+    this.imageUrl = file ? URL.createObjectURL(file) : '';
   }
 
 
@@ -164,9 +174,9 @@ export class FormMovieDialogComponent implements OnInit {
   }
 
   onSaveClick(): void {
-    
-    if(this.form.invalid){
-      this.alertService.showWarningAlert('Validaciones','Debe completar los campos obligatorios')
+
+    if (this.form.invalid) {
+      this.alertService.showWarningAlert('Validaciones', 'Debe completar los campos obligatorios')
       return;
     }
 
@@ -174,42 +184,91 @@ export class FormMovieDialogComponent implements OnInit {
     model.releaseHour = this.convertToHHMMSS(model?.releaseHour);
     model.userId = this.accountService.getUserId();
 
-    if(this.data.viewType == EnumOperation.Insert){
+    if (this.data.viewType == EnumOperation.Insert) {
       this.save(model);
-    }else if(this.data.viewType == EnumOperation.Update){
+    } else if (this.data.viewType == EnumOperation.Update) {
       this.update(model);
-    } 
+    }
 
   }
 
-  private save(model: IMoviePost){
+  private save(model: IMoviePost) {
     this.movieService.insertMovie(model).subscribe({
-      next: (res)=>{
-        if(!res.succeded){
-          res.warnings.forEach(warn=>{
-            this.alertService.showWarningAlert('',warn);
+      next: (res) => {
+        if (!res.succeded) {
+          res.warnings.forEach(warn => {
+            this.alertService.showWarningAlert('', warn);
           })
           return;
         }
 
-        this.alertService.showSuccessAlert('','Pelicula creada satisfactoriamente');
-        this.dialogRef.close({succeded:true})
+        if(!model.imageUploaded){
+          this.alertService.showSuccessAlert('', 'Pelicula creada satisfactoriamente');
+          this.dialogRef.close({ succeded: true })
+          return;
+        }
+
+        if (res.singleData.movieId && res.singleData.movieId > 0) {
+            const imageModel: IMovieImagePost = {
+              imageUploaded: model.imageUploaded,
+              userId: model.userId,
+              movieId: res.singleData.movieId
+            }
+            this.uploadImage(imageModel, 'Pelicula creada satisfactoriamente');
+            return;
+        }else{
+          this.alertService.showWarningAlert('', 'La imagen no pudo subirse. Favor de comunicarse con un administrador');
+        }
+
+        
       }
     })
   }
 
-  private update(model: IMoviePost){
+  private update(model: IMoviePost) {
     this.movieService.updateMovie(model).subscribe({
-      next: (res)=>{
-        if(!res.succeded){
-          res.warnings.forEach(warn=>{
-            this.alertService.showWarningAlert('',warn);
+      next: (res) => {
+        if (!res.succeded) {
+          res.warnings.forEach(warn => {
+            this.alertService.showWarningAlert('', warn);
           })
           return;
         }
 
-        this.alertService.showSuccessAlert('','Pelicula actualizada satisfactoriamente');
-        this.dialogRef.close({succeded:true})
+        if(!model.imageUploaded){
+          this.alertService.showSuccessAlert('', 'Pelicula actualizada satisfactoriamente');
+          this.dialogRef.close({ succeded: true })
+          return;
+        }
+
+        if (res.singleData.movieId && res.singleData.movieId > 0) {
+            const imageModel: IMovieImagePost = {
+              imageUploaded: model.imageUploaded,
+              userId: model.userId,
+              movieId: res.singleData.movieId
+            }
+            this.uploadImage(imageModel, 'Pelicula actualizada satisfactoriamente');
+            return;
+        }else{
+          this.alertService.showWarningAlert('', 'La imagen no pudo subirse. Favor de comunicarse con un administrador');
+        }
+
+      }
+    })
+  }
+
+  private uploadImage(model: IMovieImagePost, successText: string) {
+    this.movieService.uploadMovieImage(model).subscribe({
+      next: (res) => {
+        if (!res.succeded) {
+          res.warnings.forEach(warn => {
+            this.alertService.showWarningAlert('', warn);
+          })
+          return;
+        }
+
+        this.alertService.showSuccessAlert('', successText);
+        this.dialogRef.close({ succeded: true })
       }
     })
   }
@@ -217,11 +276,11 @@ export class FormMovieDialogComponent implements OnInit {
   convertToHHMMSS(time: string | null): string | null {
     const timeParts = time?.split(':');
     if (timeParts?.length === 2) {
-        return time + ':00';
+      return time + ':00';
     } else if (timeParts?.length === 3) {
-        return time;
+      return time;
     } else {
-        return null
+      return null
     }
   }
 }

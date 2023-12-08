@@ -5,6 +5,7 @@ import { MovieService } from 'src/app/services/movie.service';
 import { IMovieByScreenView, IMoviesVIew } from 'src/app/utils/models/movies';
 import { AlertService } from 'src/app/services/alert.service';
 import { DatePipe } from '@angular/common';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-movies-web-filters',
@@ -34,7 +35,8 @@ export class MoviesWebFiltersComponent implements OnInit {
         }
 
         this.movies = response.dataList.map(record => ({
-          ...record
+          ...record,
+          imageUrl: `${environment.API_URL}/Movies/ViewImage/${record.movieId}`
         }));
 
       }

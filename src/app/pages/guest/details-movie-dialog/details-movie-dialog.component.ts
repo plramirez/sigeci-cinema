@@ -7,6 +7,7 @@ import { CinemaService } from 'src/app/services/cinema.service';
 import { MovieService } from 'src/app/services/movie.service';
 import { ICinemaView } from 'src/app/utils/models/cinema';
 import { IMovieByScreenView, IMoviesVIew } from 'src/app/utils/models/movies';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -32,6 +33,10 @@ export class DetailsMovieDialogComponent {
     private alertService: AlertService,
     private datePipe: DatePipe
   ) {
+
+    if(data?.movieId && data?.movieId > 0){
+      data.imageUrl = `${environment.API_URL}/Movies/ViewImage/${data.movieId}`
+    }
 
     this.cinemaDropConfig = this.getDropDownConfiguration('cinemaName');
     this.cinemaScreenDropConfig = this.getDropDownConfiguration('screenName');

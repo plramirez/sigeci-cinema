@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { IResponseModel } from '../utils/models/response';
-import { IMovieByScreenPost, IMovieByScreenView, IMovieClassificationVIew, IMovieGenderView, IMoviePost, IMoviesVIew } from '../utils/models/movies';
+import { IMovieByScreenPost, IMovieByScreenView, IMovieClassificationVIew, IMovieGenderView, IMovieImagePost, IMoviePost, IMoviesVIew } from '../utils/models/movies';
 
 @Injectable({
   providedIn: 'root'
@@ -108,4 +108,23 @@ export class MovieService {
     });
   }
 
+  uploadMovieImage(model: IMovieImagePost){
+
+    const formData = new FormData();
+
+    formData.append('MovieId',model.movieId.toString());
+    model?.userId ? formData.append('UserId', model?.userId.toString()) : null;
+    formData.append('ImageUploaded',model.imageUploaded);
+
+    return this.httpClient.put<IResponseModel<IMoviePost>>(`${this.baseUrl}/Movies/UploadImage`,formData);
+  }
+
+  deleteMovieImage(movieId: number, userId: number){
+    return this.httpClient.delete<IResponseModel<null>>(`${this.baseUrl}/Movies/DeleteImage`,{
+      params: <any>{
+        movieId: movieId,
+        userId: userId
+      }
+    });
+  }
 }

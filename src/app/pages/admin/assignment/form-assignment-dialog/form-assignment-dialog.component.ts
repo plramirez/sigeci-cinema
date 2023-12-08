@@ -24,6 +24,8 @@ export class FormAssignmentDialogComponent {
     coverImage: ''
   }
 
+  enumOperations = EnumOperation;
+  
   form = new FormGroup({
     movieByScreenId: new FormControl<number>(0, Validators.required),
     movieId:  new FormControl<number | null>(null,Validators.required),

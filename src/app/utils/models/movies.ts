@@ -44,6 +44,12 @@ export interface IActorsInMoviePost {
     userId: number
 }
 
+export interface IMovieImagePost{
+    movieId: number
+    userId: number | undefined | null
+    imageUploaded: File
+}
+
 export interface IMovieClassificationVIew {
     classificationId: number
     classificationName: string
