@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FilterToggleSidebarService } from 'src/app/services/filter-toggle-sidebar.service';
 
 @Component({
   selector: 'app-header',
@@ -6,8 +7,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
+  constructor(public filterMenuService: FilterToggleSidebarService) {}
+  imagePath: string = 'assets/logo_white_completed.png'
+
   openFilterMenu(): void {
-    // Implementa la lógica para abrir el menú de filtro aquí
-    console.log('Abrir menú de filtro');
+    this.filterMenuService.toggleMenu();
   }
 }

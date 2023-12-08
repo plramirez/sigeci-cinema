@@ -1,7 +1,8 @@
 <!-- movies-web-list.component.html -->
 <app-header></app-header>
 
-<!-- Contenido principal de la página -->
-
+<div class="pelicula-list">
+  <app-movie-card *ngFor="let pelicula of peliculas" [pelicula]="pelicula" (click)="openMovieDialog(pelicula)"></app-movie-card>
+</div>
 <app-footer></app-footer>
 
