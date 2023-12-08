@@ -1,6 +1,16 @@
 <div class="pelicula-card">
-  <img [src]="movie?.imageUrl" alt="{{ movie?.movieName }}">
-  <h3>{{  movie?.movieName }}</h3>
-  <p>{{  movie?.genderName }}</p>
-  <p>{{  movie?.synopsis | slice:0:50 }}{{ movie?.synopsis ? ( movie?.synopsis!.length > 50 ? '...' : '') : "" }}</p>
+  <div class="row m-3 ">
+    <div class="col-12 text-center" style="min-height: 250px;">
+      <img [src]="movie?.imageUrl" alt="{{ movie?.movieName }}">
+    </div>
+  </div>
+  <div class="row p-0 m-0 text-center text-white" [ngClass]="{'bg-danger': movie?.movieTag === 'Estreno', 'bg-warning': movie?.movieTag === 'Próximamente', 'bg-dark': movie?.movieTag === 'Exhibiéndose Ahora'}">
+    <h3>{{  movie?.movieTag }}</h3>
+  </div>
+  <div class="row mt-5">
+    <h3>{{  movie?.movieName }}</h3>
+    <p>{{  movie?.genderName }}</p>
+    <p>{{  movie?.synopsis | slice:0:50 }}{{ movie?.synopsis ? ( movie?.synopsis!.length > 50 ? '...' : '') : "" }}</p>
+  </div>
+  
 </div>
