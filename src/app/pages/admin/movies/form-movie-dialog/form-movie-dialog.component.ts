@@ -241,11 +241,11 @@ export class FormMovieDialogComponent implements OnInit {
           return;
         }
 
-        if (res.singleData.movieId && res.singleData.movieId > 0) {
+        if (model.movieId && model.movieId > 0) {
             const imageModel: IMovieImagePost = {
               imageUploaded: model.imageUploaded,
               userId: model.userId,
-              movieId: res.singleData.movieId
+              movieId: model.movieId
             }
             this.uploadImage(imageModel, 'Pelicula actualizada satisfactoriamente');
             return;
