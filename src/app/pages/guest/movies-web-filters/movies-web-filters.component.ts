@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DetailsMovieDialogComponent } from '../details-movie-dialog/details-movie-dialog.component';
 import { MovieService } from 'src/app/services/movie.service';
@@ -17,8 +17,10 @@ export class MoviesWebFiltersComponent implements OnInit {
   movies: IMoviesVIew[] = [];
   moviesFiltered: IMoviesVIew[] = [];
 
+  searched: boolean = false;
 
-  constructor(public dialog: MatDialog, private movieService: MovieService, private alertService: AlertService, private datePipe: DatePipe) {}
+
+  constructor(public dialog: MatDialog, private movieService: MovieService, private alertService: AlertService, private datePipe: DatePipe, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void{
     this.getList()
@@ -39,6 +41,7 @@ export class MoviesWebFiltersComponent implements OnInit {
           imageUrl: `${environment.API_URL}/Movies/ViewImage/${record.movieId}`
         }));
 
+        this.searched = true;
       }
     })
   }
@@ -60,5 +63,10 @@ export class MoviesWebFiltersComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       // Puedes realizar acciones después de que se cierre el diálogo
     });
+  }
+
+  changeListForSearch(value: IMoviesVIew[]){
+    this.moviesFiltered = [...value];
+    this.cdr.detectChanges();
   }
 }

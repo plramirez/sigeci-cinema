@@ -8,6 +8,7 @@ import { INestedDropDown, ISearcherOptions } from 'src/app/utils/models/filter';
 })
 export class SearcherComponent implements OnInit {
 
+  @Input() searcherName: string = 'Buscador';
   @Input() list: any[] = [];
   @Input() searchOptions: ISearcherOptions[] = [];
   @Output() listFilteredOutput: EventEmitter<any[]> = new EventEmitter();
@@ -17,10 +18,7 @@ export class SearcherComponent implements OnInit {
   selectedOption: ISearcherOptions | undefined | null
 
 
-  selectedFromNestedDrop: INestedDropDown = {
-    name: '',
-    value: ''
-  }
+  selectedFromNestedDrop: INestedDropDown | undefined
 
   selectedFromDate: string = '';
   selectedToDate: string = '';
@@ -59,7 +57,7 @@ export class SearcherComponent implements OnInit {
 
     if(this.selectedOption?.isDropDown){
 
-      if(!this.selectedFromNestedDrop.value){
+      if(!this.selectedFromNestedDrop?.value){
         return;
       }
       
@@ -98,6 +96,6 @@ export class SearcherComponent implements OnInit {
   }
 
   changeOption(){
-    
+    this.selectedFromNestedDrop = undefined
   }
 }
