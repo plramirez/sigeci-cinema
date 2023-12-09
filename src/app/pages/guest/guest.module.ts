@@ -15,6 +15,8 @@ import { FormsModule } from '@angular/forms';
 import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
 import { SelectDropDownModule } from 'ngx-select-dropdown';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { CinemaCardComponent } from './cinema-card/cinema-card.component';
+import { CinemaListComponent } from './cinema-list/cinema-list.component';
 @NgModule({
   declarations: [
     MoviesWebFiltersComponent,
@@ -22,7 +24,9 @@ import { SharedModule } from 'src/app/shared/shared.module';
     FooterComponent,
     FilterToggleSidebarComponent,
     MovieCardComponent,
-    DetailsMovieDialogComponent
+    DetailsMovieDialogComponent,
+    CinemaCardComponent,
+    CinemaListComponent
   ],
   imports: [
     CommonModule,
