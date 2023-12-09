@@ -26,7 +26,6 @@
         <table class="movies-table">
           <thead>
             <tr>
-              <th class="text-center">No. Secuencia</th>
               <th>Pelicula</th>
               <th>Cine</th>
               <th>Sala</th>
@@ -38,7 +37,6 @@
           </thead>
           <tbody>
             <tr *ngFor="let movie of movies">
-              <td class="text-center">{{movie.movieByScreenId}}</td>
               <td>{{ movie.movieName || 'N/A' }}</td>
               <td>{{ movie.cinemaName || 'N/A' }}</td>
               <td>{{ movie.screenName || 'N/A' }}</td>
