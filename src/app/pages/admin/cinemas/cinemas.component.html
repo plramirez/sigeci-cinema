@@ -51,7 +51,7 @@
           </td>
           <td class="text-center">{{cinema.cinemaId}}</td>
           <td>{{ cinema.cinemaName || 'N/A' }}</td>
-          <td>{{ cinema.phoneNumber || 'N/A' }}</td>
+          <td>{{ (cinema.phoneNumber | mask: '(000) 000-0000') || 'N/A' }}</td>
           <td>{{ cinema.email || 'N/A' }}</td>
           <td>{{ cinema.primaryAddress || 'N/A' }}</td>
           <td>{{ cinema.stateName || 'N/A' }}</td>
