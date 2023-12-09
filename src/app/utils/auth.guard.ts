@@ -36,13 +36,11 @@ export class AuthGuard implements CanActivate, CanActivateChild {
                 icon: 'error',
                 text: 'Usted no tiene acceso al módulo seleccionado',
                 showConfirmButton: true,
-                background: '#191c29',
-                color: 'white',
                 showCloseButton: true,
                 allowOutsideClick: false
               }
             )
-            
+            this.accountService.logOut();
     
             return false;
           }

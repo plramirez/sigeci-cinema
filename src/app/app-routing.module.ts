@@ -11,17 +11,10 @@ const routes: Routes = [
   },
   {
     component: AdminLayoutComponent,
+    canActivate: [AuthGuard],
+    data: {expectedRole: 'ADMIN'},
     path: 'admin',
     loadChildren: () => import('./pages/admin/admin.module').then(m => m.AdminModule)
-    //canActivate: [AuthGuard],
-    //data: {expectedRole: 'ADMIN'},
-    // children: [
-    //   {
-
-    //     path: 'admin',
-    //     loadChildren: () => import('./pages/admin/admin.module').then(m => m.AdminModule)
-    //   }
-    // ]
   },
   {
     path: 'guest',
