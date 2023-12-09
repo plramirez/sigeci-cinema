@@ -1,5 +1,5 @@
 <!-- detalle-pelicula.component.html -->
-<div class="container-dialog">
+<div class="container-dialog" style="min-height: 700px;">
   <h3>{{ data?.movieName | titlecase }}</h3>
   <button mat-icon-button class="close-button btn-danger btn" (click)="onCloseClick()">
     <i class="fas fa-times"></i>
@@ -24,7 +24,7 @@
     </div>
   </div>
 
-  <div class="columns-container">
+  <div class="columns-container mt-4">
     <!-- Dropdowns en una columna -->
     <div class="dropdown-column">
       <label for="cines">Cines Disponibles:</label>
