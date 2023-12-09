@@ -81,8 +81,8 @@ select {
 
 
 .img-container{
-  width: 550px !important; /* Cambia esto al tamaño que desees */
-  height: 250px !important; /* Cambia esto al tamaño que desees */
+  width: 450px !important; /* Cambia esto al tamaño que desees */
+  height: 150px !important; /* Cambia esto al tamaño que desees */
   overflow: hidden;
 }
 

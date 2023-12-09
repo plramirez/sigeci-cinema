@@ -56,7 +56,7 @@ export class MoviesWebFiltersComponent implements OnInit {
 
   openMovieDialog(movie: IMoviesVIew): void {
     const dialogRef = this.dialog.open(DetailsMovieDialogComponent, {
-      width: '70%',
+      width: '60%',
       data: movie,
     });
 

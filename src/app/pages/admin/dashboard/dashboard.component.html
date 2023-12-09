@@ -6,70 +6,45 @@
       <div class="card-container">
         <!-- Primera fila de cards -->
         <div class="card card1">
-          <div class="card-title">Card 1</div>
-          <div class="card-number">100</div>
+          <div class="card-title">Peliculas Registradas</div>
+          <div class="card-number">{{ moviesCount }}</div>
         </div>
 
         <div class="card card2">
-          <div class="card-title">Card 2</div>
-          <div class="card-number">75</div>
+          <div class="card-title">Cines Registrados</div>
+          <div class="card-number">{{ cinemasCount }}</div>
         </div>
 
         <div class="card card3">
-          <div class="card-title">Card 3</div>
-          <div class="card-number">50</div>
+          <div class="card-title">Salas Registradas</div>
+          <div class="card-number">{{ roomsCount }}</div>
         </div>
 
-        <!-- Segunda fila de cards -->
-        <div class="card card4">
-          <div class="card-title">Card 4</div>
-          <div class="card-number">30</div>
-        </div>
-
-        <div class="card card5">
-          <div class="card-title">Card 5</div>
-          <div class="card-number">20</div>
-        </div>
-
-        <div class="card card6">
-          <div class="card-title">Card 6</div>
-          <div class="card-number">10</div>
-        </div>
       </div>
-
-      <div class="table-container">
-        <!-- Tabla -->
-        <table class="dashboard-table">
+      <h1 class="dashboard-subtitle">Peliculas asignadas al cliente web:</h1>
+      <div class="movies-table-container">
+        <table class="movies-table">
           <thead>
             <tr>
-              <th>Título de Película</th>
-              <th>Descripción</th>
-              <th>Protagonista</th>
-              <th>Cines</th>
-              <th>Salas</th>
-              <th>Fecha de publicación</th>
+              <th>Pelicula</th>
+              <th>Cine</th>
+              <th>Sala</th>
+              <th>Precio por Asiento</th>
+              <th>Fecha de Exhibición</th>
+              <th>Hora de Exhibición</th>
+              <th>Fecha de Registro</th>
             </tr>
           </thead>
           <tbody>
-            <!-- Filas de datos de la tabla -->
-            <tr>
-              <td>Película 1</td>
-              <td>Descripción 1</td>
-              <td>Protagonista 1</td>
-              <td>Cine A</td>
-              <td>Sala 1</td>
-              <td>2023-01-01</td>
+            <tr *ngFor="let movie of movies">
+              <td>{{ movie.movieName || 'N/A' }}</td>
+              <td>{{ movie.cinemaName || 'N/A' }}</td>
+              <td>{{ movie.screenName || 'N/A' }}</td>
+              <td>{{ (movie.priceBySeat | currency:'RD$') || 'N/A' }}</td>
+              <td>{{( movie.showingDate | date:'dd/MM/yyyy') || 'N/A' }}</td>
+              <td>{{ movie.transformedTime || 'N/A' }}</td>
+              <td>{{( movie.createdAt | date:'dd/MM/yyyy') || 'N/A' }}</td>
             </tr>
-
-            <tr>
-              <td>Película 1</td>
-              <td>Descripción 1</td>
-              <td>Protagonista 1</td>
-              <td>Cine A</td>
-              <td>Sala 1</td>
-              <td>2023-01-01</td>
-            </tr>
-            <!-- Repite según sea necesario -->
           </tbody>
         </table>
       </div>

@@ -1,5 +1,5 @@
 <!-- detalle-pelicula.component.html -->
-<div class="container-dialog" style="min-height: 900px;">
+<div class="container-dialog">
   <h3>{{ data?.movieName | titlecase }}</h3>
   <button mat-icon-button class="close-button btn-danger btn" (click)="onCloseClick()">
     <i class="fas fa-times"></i>
@@ -9,7 +9,7 @@
       <div class="img-container text-center">
         <img [src]="data?.imageUrl"  alt="{{ data?.movieName }}" onerror="this.error=null; this.src='/assets/no-image.png'">
       </div>
-      
+
     </div>
     <div class="col-md-4">
       <p><strong>Directores:</strong> {{ data?.directorName || 'N/A' }}</p>
@@ -23,7 +23,7 @@
       </p>
     </div>
   </div>
- 
+
   <div class="columns-container">
     <!-- Dropdowns en una columna -->
     <div class="dropdown-column">
@@ -31,18 +31,8 @@
       <ngx-select-dropdown id="cinema" name="cinema" (change)="changeCinema()" [(ngModel)]="selectedCinema"
           [multiple]="false" [config]="cinemaDropConfig" [options]="cinemas"></ngx-select-dropdown>
 
-      <!-- <label for="salas-horarios">Salas y Horarios:</label>
-      <select id="salas-horarios" [(ngModel)]="selectedSalaHorario">
-        <option value="" disabled selected>Selecciona una sala y horario</option>
-        <option *ngFor="let salaHorario of salasHorarios" [value]="salaHorario">{{ salaHorario }}</option>
-      </select> -->
     </div>
 
-
-    <!-- Mapa de Google en la otra columna -->
-    <!-- <div class="map-column">
-      <div id="google-map"></div>
-    </div> -->
   </div>
 
   <div class="row mb-5">

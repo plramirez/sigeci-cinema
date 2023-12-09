@@ -16,7 +16,7 @@ export class HeaderComponent implements OnInit {
 
   moviesFiltered: IMoviesVIew[] = [];
   @Output() moviesFilteredOutput: EventEmitter<IMoviesVIew[]> = new EventEmitter();
-  
+
   searchOptions: ISearcherOptions[]=[
     {
       name: 'Nombre',
@@ -63,7 +63,7 @@ export class HeaderComponent implements OnInit {
 
         this.movieClassifications = response.dataList;
 
-        const searchOption: ISearcherOptions = 
+        const searchOption: ISearcherOptions =
         {
           name: 'Clasificación',
           attribute: 'classificationName',
@@ -94,7 +94,7 @@ export class HeaderComponent implements OnInit {
 
         this.movieGenders = response.dataList
 
-        const searchOption: ISearcherOptions = 
+        const searchOption: ISearcherOptions =
         {
           name: 'Genero',
           attribute: 'genderName',

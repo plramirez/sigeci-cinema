@@ -66,21 +66,37 @@
 }
 
 
-.table-container {
-  margin-top: 20px;
+.movies-container {
+  width: 100%;
 }
 
-.dashboard-table {
+.movies-table-container {
+  overflow-x: auto;
+  margin-top: 20px;
+  margin-right: 30px;
+}
+
+.movies-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 10px;
 }
 
-.dashboard-table th,
-.dashboard-table td {
+.movies-table th,
+.movies-table td {
   padding: 15px;
   border: 1px solid #ddd;
   text-align: left;
+
+}
+
+.movies-table th {
+  background-color: #f2f2f2;
+  white-space: nowrap;
+  min-width: 150px;
+}
+
+.movies-table td {
+  background-color: white;
 }
 
 .dashboard-table th {
@@ -89,4 +105,9 @@
 
 .dashboard-table td {
   background-color: white;
+}
+
+.dashboard-subtitle{
+font-size: large;
+margin-top: 40px;
 }

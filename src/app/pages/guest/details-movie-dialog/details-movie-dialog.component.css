@@ -7,7 +7,7 @@
 .img-container{
   width: 100%; /* or specify a fixed width */
   max-width: 400px; /* set a maximum width if needed */
-  height: 450px;
+  height: 300px;
   position: relative;
   overflow: hidden;
 }
@@ -32,6 +32,7 @@
 
 .container-dialog{
   padding: 20px;
+  height: 100%;
 }
 
 .dropdown-column {
